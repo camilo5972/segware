@@ -4,19 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "npm run test"
+    "start": "NODE_ENV=production nodemon index.js",
+    "test": "NODE_ENV=test mocha --timeout 10000 --require babel-core/register --reporter spec --exit tests/"
   },
   "author": "Camilo Henao",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "helmet": "^3.21.1",
     "mongoose": "^5.7.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.2"
+    "babel-cli": "^6.26.0",
+    "babel-preset-node8": "^1.2.0",
+    "chai": "^4.2.0",
+    "config": "^3.2.2",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.2",
+    "supertest": "^4.0.2"
   }
 }

@@ -6,8 +6,9 @@ const Schema = mongoose.Schema;
 const PostsSchema = Schema({
     author: { type: String, required: true},
     dateCreated: { type: Date, default: Date.now() },
+    dateModified: Date,
     text: { type: String, required: true },
-    upvoters: [{ type: String, unique: true }]
+    upvoters: [String]
 });
 
 module.exports = mongoose.model('Posts', PostsSchema);

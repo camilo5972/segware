@@ -1,14 +1,12 @@
 'use strict'
 
-require('dotenv').config();
-
+const db = require('./config/db');
 const port = process.env.PORT || 3530;
 const express = require('express');
-const mongoose = require('mongoose');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const app = express();
-const routes = require('./routes');
+const routes = require('./routes/post.route');
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -25,11 +23,12 @@ app.use((req, res, next) => {
 
 app.use('/api', routes);
 
-mongoose.connect(process.env.MONGODB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+db.connectDB()
     .then(() => {
-        console.log('Connection to MongoDB working...');
         app.listen(port, '0.0.0.0', () => {
             console.log(`App listening on port ${port}!`);
         });
     })
-    .catch(error => console.log(`Database connection error: ${error.message}`));
+    .catch(console.log);
+
+module.exports = app;
