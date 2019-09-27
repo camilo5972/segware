@@ -11,5 +11,6 @@ api.post('/posts', Middlewares.requireAuthor, Controllers.newPost);
 api.put('/posts/:_id', Middlewares.onlyAuthor, Controllers.updatePost);
 api.put('/posts/:_id/upvote', Middlewares.requireUpvoter, Controllers.upvotePost);
 api.delete('/posts/:_id', Middlewares.onlyAuthor, Controllers.deletePost);
+api.delete('/posts/:_id/upvote', Middlewares.requireUpvoter, Controllers.deleteUpvotePost);
 
 module.exports = api;

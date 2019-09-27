@@ -57,10 +57,22 @@ async function upvotePost(req, res) {
     }
 }
 
+async function deleteUpvotePost(req, res) {
+    try {
+        const { _id } = req.params;
+        const { upvoter } = req.body;
+        const responseUpdate = await Posts.findByIdAndUpdate(_id, { '$pull': { upvoters: upvoter }}, { new: true });
+        res.status(200).send({ post: responseUpdate });
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
 module.exports = {
     getPosts,
     newPost,
     updatePost,
     deletePost,
-    upvotePost
+    upvotePost,
+    deleteUpvotePost
 };

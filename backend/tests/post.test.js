@@ -86,7 +86,20 @@ describe('api/posts', () => {
             expect(res.status).to.equal(201);
             res = await request(app).delete(`/api/posts/${res.body.post._id}`).send({ author: '15' }).set('Accept', 'application/json');
             expect(res.status).to.equal(200);
-        }); 
+        });
+
+        it('should delete an upvoter', async () => {
+            let resNewPost = await request(app).post('/api/posts').send({ author: '18', text: 'My first post' }).set('Accept', 'application/json');
+            expect(resNewPost.status).to.equal(201);
+            let resUpdatePost = await request(app).put(`/api/posts/${resNewPost.body.post._id}/upvote`).send({ upvoter: '13' }).set('Accept', 'application/json');
+            expect(resUpdatePost.body.post.upvoters.length).to.equal(1);
+            let resDeleteUpvote = await request(app).delete(`/api/posts/${resNewPost.body.post._id}/upvote`).send({ upvoter: '18' }).set('Accept', 'application/json');
+            expect(resDeleteUpvote.status).to.equal(200);
+            expect(resDeleteUpvote.body.post.upvoters.length).to.equal(1);
+            resDeleteUpvote = await request(app).delete(`/api/posts/${resNewPost.body.post._id}/upvote`).send({ upvoter: '13' }).set('Accept', 'application/json');
+            expect(resDeleteUpvote.status).to.equal(200);
+            expect(resDeleteUpvote.body.post.upvoters.length).to.equal(0);
+        });
     });
 
 });
