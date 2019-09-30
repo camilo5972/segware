@@ -1,0 +1,14 @@
+{
+    "label": {
+    },
+    "buttonText": {
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit"
+    },
+    "inputText": {
+    },
+    "error": {
+        "default": "Sorry an error occurred: {{message}}"
+    }
+}
