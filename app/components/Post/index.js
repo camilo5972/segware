@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import AppContext from '../../AppContext';
 import StylesComponent from './style';
 import { Card, Icon } from 'react-native-elements';
 import OptionsMenu from 'react-native-options-menu';
 import * as Animatable from 'react-native-animatable';
 import i18n from '../../i18n';
-import { formatDate, upvote, removeVote } from '../../utils';
+import { formatDate, upvote, removeVote, removePost } from '../../utils';
 const AnimatedButton = Animatable.createAnimatableComponent(TouchableOpacity);
 
 export default function Post(props) {
@@ -22,13 +22,31 @@ export default function Post(props) {
             const postUpdated = isAuthorUpvoter() ? await removeVote(post._id, { upvoter }) : await upvote(post._id, { upvoter });
             setPost(postUpdated);
             buttonHeartRef.current.swing(1000);
-            
         } catch (error) {
-            alert(i18n.t('error.default', { message: error.message }));
+            Alert.alert(i18n.t('error.default', { message: error.message }));
         }
     };
     const editPost = () => {};
-    const deletePost = () => {};
+    const deletePost = async () => {
+        try {
+            const postRemoved = await removePost(post._id, { author: context.state.author });
+            const posts = context.state.posts.filter((item) => item._id !== postRemoved._id );
+            context.updateState({ ...context.state, posts });
+        } catch (error) {
+            Alert.alert(i18n.t('error.default', { message: error.message }));
+        }
+    };
+    const confirmDeletePost = () => {
+        Alert.alert(
+            '',
+            i18n.t('alert.deletePost'),
+            [
+                { text: i18n.t('buttonText.delete'), onPress: () => deletePost() },
+                { text: i18n.t('buttonText.cancel'), onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
+            ],
+            {cancelable: false},
+        );
+    };
     const isAuthorUpvoter = () => {
         return post.upvoters.includes(context.state.author);
     };
@@ -58,7 +76,7 @@ export default function Post(props) {
                             )}
                             destructiveIndex={1}
                             options={[i18n.t('buttonText.edit'), i18n.t('buttonText.delete'), i18n.t('buttonText.cancel')]}
-                            actions={[editPost, deletePost, () => {}]}
+                            actions={[editPost, confirmDeletePost, () => {}]}
                         />
                     </View>
                 }

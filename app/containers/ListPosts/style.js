@@ -4,7 +4,7 @@ export default class StylesComponent {
     static getSheet() {
         return StyleSheet.create({
             container: {
-                flex: 1
+                flexGrow: 1
             },
             title: {
                 flex: 1

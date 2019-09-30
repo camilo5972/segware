@@ -1,33 +1,71 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Modal, Text, TouchableHighlight } from 'react-native';
+import { View, Modal, Text, Alert, TouchableOpacity, TextInput } from 'react-native';
+import i18n from '../../i18n';
 import AppContext from '../../AppContext';
 import StylesComponent from './style';
-import { isIphoneX } from '../../utils/isIphone';
+import { newPost } from '../../utils';
 
 export default function NewPost(props) {
     const context = useContext(AppContext);
+    const [state, setState] = useState({visible: false, activePublish: false, contentPost: null});
     const styles = StylesComponent.getSheet();
+    const hideModal = () => {
+        props.setVisibleModalNewPost(false);
+    };
+    const updateContentPost = (contentPost) => {
+        setState({...state, contentPost, activePublish: contentPost !== ''});
+    };
+    const publish = async () => {
+        try {
+            if (!state.activePublish) return;
+            const post = await newPost({ author: context.state.author, text: state.contentPost });
+            updateContentPost(null);
+            context.updateState({ ...context.state, posts: [post, ...context.state.posts]});
+            hideModal();
+        } catch (error) {
+            Alert.alert(i18n.t('error.default', { message: error.message }));
+        }
+    };
     useEffect(() => {
-        props.setVisibleModalNewPost(props.visible);
-    });
+        setState({ ...state, visible: props.visible});
+    }, [props.visible]);
     
     return (
         <Modal
-            animationType="slide"
+            animationType='slide'
             transparent={false}
-            visible={props.visible}
-            onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-            }}>
-            <View style={{marginTop: isIphoneX ? 40: 22}}>
-                <View>
-                    <Text>Hello World!</Text>
-                    <TouchableHighlight
-                        onPress={() => {
-                            props.setVisibleModalNewPost(false);
+            visible={state.visible}>
+            <View style={styles.container}>
+                <View style={styles.topBar}>
+                    <View style={[styles.itemTopBar, styles.itemLeft]}>
+                        <TouchableOpacity onPress={() => {
+                            hideModal();
                         }}>
-                        <Text>Hide Modal</Text>
-                    </TouchableHighlight>
+                            <Text style={styles.buttonText}>{i18n.t('buttonText.cancel')}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.itemTopBar, styles.itemCenter]}>
+                        <Text style={styles.title}>{i18n.t('label.NewPost.newPost')}</Text>
+                    </View>
+                    <View style={[styles.itemTopBar, styles.itemRight]}>
+                        <TouchableOpacity 
+                            disabled={!state.activePublish}
+                            onPress={publish}>
+                            <Text style={[styles.buttonText, !state.activePublish && styles.inactiveText]}>{i18n.t('buttonText.publish')}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.textAreaContainer} >
+                    <TextInput
+                        style={styles.textArea}
+                        onChangeText={text => updateContentPost(text)}
+                        value={state.contentPost}
+                        underlineColorAndroid='transparent'
+                        placeholder={i18n.t('inputText.whatOnMind')}
+                        placeholderTextColor='grey'
+                        numberOfLines={10}
+                        multiline={true}
+                    />
                 </View>
             </View>
         </Modal>

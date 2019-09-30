@@ -16,7 +16,7 @@ export default function ListPosts() {
     const onRefresh = useCallback(async () => {
         setRefresh(true);
         const posts = await getPosts();
-        await context.updateState({ posts });
+        await context.updateState({ ...context.state, posts });
         setRefresh(false);
     }, [refresh]);
     
