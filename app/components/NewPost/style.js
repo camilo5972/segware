@@ -6,7 +6,7 @@ export default class StylesComponent {
         return StyleSheet.create({
             container: {
                 flex: 1,
-                marginTop: isIphoneX ? 40: 22
+                marginTop: isIphoneX ? 50: 22
             },
             title: {
                 textAlign:'center',
