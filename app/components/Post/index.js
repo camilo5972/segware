@@ -54,7 +54,7 @@ export default function Post(props) {
         return post.author === context.state.author;
     };
     const verifyUpvote = () => {
-        return isAuthorUpvoter () ? 'heart': 'hearto';
+        return isAuthorUpvoter () ? 'thumb-up': 'thumb-up-outline';
     };
 
     useEffect(() => {
@@ -87,9 +87,9 @@ export default function Post(props) {
                     <AnimatedButton ref={buttonHeartRef} style={styles.buttonUpvote} onPress={onPressVote}>
                         <Icon
                             size={21}
-                            color='#fa4259'
+                            color='#65b9bd'
                             name={verifyUpvote()}
-                            type='antdesign' />
+                            type='material-community' />
                         <Text style={styles.textTotalUpvoters}>{post.upvoters.length}</Text>
                     </AnimatedButton>
                 </View>

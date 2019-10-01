@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { isIphoneX } from '../../utils/isIphone';
 
 export default class StylesComponent {
@@ -6,7 +6,7 @@ export default class StylesComponent {
         return StyleSheet.create({
             container: {
                 flex: 1,
-                marginTop: isIphoneX ? 50: 22
+                marginTop: Platform.OS === 'android' ? 12 : isIphoneX ? 50: 12
             },
             title: {
                 textAlign:'center',
@@ -37,21 +37,20 @@ export default class StylesComponent {
                 color: '#65b9bd'
             },
             textAreaContainer: {
+                marginTop: 30,
                 marginHorizontal: 22,
                 borderColor: '#d7d9da',
-                borderLeftColor: 'transparent',
-                borderRightColor: 'transparent',
-                borderTopColor: 'transparent',
-                borderWidth: 1,
+                borderBottomWidth: 1,
                 padding: 5
             },
             inactiveText: {
                 color: 'grey'
             },
             textArea: {
-                marginTop: 22,
+                borderColor: 'transparent',
                 height: 150,
-                justifyContent: 'flex-start'
+                justifyContent: 'flex-start',
+                textAlign: 'justify'
             }
         })
     }
