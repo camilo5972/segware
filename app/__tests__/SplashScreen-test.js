@@ -3,9 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import SplashScreen from '../containers/SplashScreen';
 
-const context = { state: {splashscreen: true, posts: [], author: '11' }, updateState: () => {}};
-
-describe('Post', () => {
+describe('SplashScreen', () => {
     let wrapper;
 
     beforeEach(() => {

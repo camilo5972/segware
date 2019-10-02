@@ -6,7 +6,7 @@ import ListPosts from '../containers/ListPosts';
 
 const context = { state: {splashscreen: true, posts: [], author: '11' }, updateState: () => {}};
 
-describe('Post', () => {
+describe('List Posts', () => {
     let wrapper;
 
     beforeEach(() => {

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect, useRef, Fragment } from 'react';
 import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import AppContext from '../../AppContext';
 import StylesComponent from './style';
@@ -7,11 +7,13 @@ import OptionsMenu from 'react-native-options-menu';
 import * as Animatable from 'react-native-animatable';
 import i18n from '../../i18n';
 import { formatDate, upvote, removeVote, removePost } from '../../utils';
+import EditPost from '../EditPost';
 const AnimatedButton = Animatable.createAnimatableComponent(TouchableOpacity);
 
 export default function Post(props) {
     const buttonHeartRef = useRef(null);
     const [post, setPost] = useState(props.post);
+    const [visibleModalEditPost, setVisibleModalEditPost] = useState(false);
     const context = useContext(AppContext);
     const styles = StylesComponent.getSheet();
     const dateCreated = formatDate(new Date(post.dateCreated));
@@ -26,7 +28,7 @@ export default function Post(props) {
             Alert.alert(i18n.t('error.default', { message: error.message }));
         }
     };
-    const editPost = () => {};
+    const editPost = () => { setVisibleModalEditPost(true) };
     const deletePost = async () => {
         try {
             const postRemoved = await removePost(post._id, { author: context.state.author });
@@ -62,41 +64,44 @@ export default function Post(props) {
     }, [context.state.posts]);
 
     return (
-        <Card containerStyle={styles.card}>
-            <View style={styles.row}>
-                {
-                    isAuthorOwnerPost() &&
-                    <View style={styles.dots}>
-                        <OptionsMenu
-                            customButton={(
-                                <Icon
-                                    color='#65b9bd'
-                                    name='dots-three-horizontal'
-                                    type='entypo' />
-                            )}
-                            destructiveIndex={1}
-                            options={[i18n.t('buttonText.edit'), i18n.t('buttonText.delete'), i18n.t('buttonText.cancel')]}
-                            actions={[editPost, confirmDeletePost, () => {}]}
-                        />
+        <Fragment>
+            <EditPost visible={visibleModalEditPost} setVisibleModalEditPost={setVisibleModalEditPost} post={post} />
+            <Card containerStyle={styles.card}>
+                <View style={styles.row}>
+                    {
+                        isAuthorOwnerPost() &&
+                        <View style={styles.dots}>
+                            <OptionsMenu
+                                customButton={(
+                                    <Icon
+                                        color='#65b9bd'
+                                        name='dots-three-horizontal'
+                                        type='entypo' />
+                                )}
+                                destructiveIndex={1}
+                                options={[i18n.t('buttonText.edit'), i18n.t('buttonText.delete'), i18n.t('buttonText.cancel')]}
+                                actions={[editPost, confirmDeletePost, () => {}]}
+                            />
+                        </View>
+                    }
+                </View>
+                <Text style={styles.text}>{post.text}</Text>
+                <View style={styles.row}>
+                    <View style={styles.containerButtonUpvote}>
+                        <AnimatedButton ref={buttonHeartRef} style={styles.buttonUpvote} onPress={onPressVote}>
+                            <Icon
+                                size={21}
+                                color='#65b9bd'
+                                name={verifyUpvote()}
+                                type='material-community' />
+                            <Text style={styles.textTotalUpvoters}>{post.upvoters.length}</Text>
+                        </AnimatedButton>
                     </View>
-                }
-            </View>
-            <Text style={styles.text}>{post.text}</Text>
-            <View style={styles.row}>
-                <View style={styles.containerButtonUpvote}>
-                    <AnimatedButton ref={buttonHeartRef} style={styles.buttonUpvote} onPress={onPressVote}>
-                        <Icon
-                            size={21}
-                            color='#65b9bd'
-                            name={verifyUpvote()}
-                            type='material-community' />
-                        <Text style={styles.textTotalUpvoters}>{post.upvoters.length}</Text>
-                    </AnimatedButton>
+                    <View style={styles.containerDate}>
+                        <Text style={styles.dateCreated}>{dateCreated}</Text>
+                    </View>
                 </View>
-                <View style={styles.containerDate}>
-                    <Text style={styles.dateCreated}>{dateCreated}</Text>
-                </View>
-            </View>
-        </Card>
+            </Card>
+        </Fragment>
     );
 }

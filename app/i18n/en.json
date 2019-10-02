@@ -2,6 +2,9 @@
     "label": {
         "NewPost": {
             "newPost": "New Post"
+        },
+        "EditPost": {
+            "editPost": "Edit Post"
         }
     },
     "buttonText": {

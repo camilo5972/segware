@@ -35,6 +35,20 @@ export const newPost = async (payload) => {
     return responseJson.post;
 };
 
+export const editPost = async (idPost, payload) => {
+    const response = await fetch(`${HOST}/posts/${idPost}`, {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify(payload)
+    });
+    const responseJson = await response.json();
+    if (!responseJson.post) throw new Error(responseJson.message);
+    return responseJson.post;
+};
+
 export const removePost = async (idPost, payload) => {
     const response = await fetch(`${HOST}/posts/${idPost}`, {
         method: 'DELETE',
