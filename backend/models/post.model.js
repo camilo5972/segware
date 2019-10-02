@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const PostsSchema = Schema({
     author: { type: String, required: true},
-    dateCreated: { type: Date, default: Date.now() },
+    dateCreated: { type: Date, default: new Date() },
     dateModified: Date,
     text: { type: String, required: true },
     upvoters: [String]
