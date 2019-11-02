@@ -21,6 +21,14 @@ export const getPosts = async () => {
     }
 };
 
+export const getTheme = async () => {
+    const theme = await getData('theme');
+    if (!theme || theme === '') {
+        await setData('theme', 'main');
+    };
+    return theme;
+};
+
 export const newPost = async (payload) => {
     const response = await fetch(`${HOST}/posts`, {
         method: 'POST',

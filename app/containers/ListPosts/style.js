@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default class StylesComponent {
-    static getSheet() {
+    static getSheet(theme) {
         return StyleSheet.create({
             container: {
                 flexGrow: 1,
@@ -19,7 +19,7 @@ export default class StylesComponent {
             },
             textHeader: {
                 textAlign:'center',
-                fontSize: 18,
+                fontSize: theme.FONT_SIZE_LARGE,
                 fontWeight: 'bold'
             },
             containerButtonNewPost: {
