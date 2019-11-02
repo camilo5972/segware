@@ -100,7 +100,11 @@ export const removeVote = async (idPost, payload) => {
 };
 
 export const formatDate = (date) => {
-    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${minutesWithLeadingZeros(date)}`;
+};
+
+minutesWithLeadingZeros = (date) => {
+  return `${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`;
 };
 
 setData = async (key, value) => {
