@@ -10,6 +10,7 @@ React Native App for Posts management.
 * Create a post
 * Upvote a post
 * Supported languages: Spanish and English (Default English)
+* Base support (code) for multi-themes
 
 ### Project structure
 
