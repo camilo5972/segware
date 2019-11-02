@@ -4,11 +4,12 @@ import i18n from '../../i18n';
 import AppContext from '../../AppContext';
 import StylesComponent from './style';
 import { newPost } from '../../utils';
+import { themes } from '../../themes';
 
 export default function NewPost(props) {
     const context = useContext(AppContext);
     const [state, setState] = useState({visible: false, activePublish: false, contentPost: null});
-    const styles = StylesComponent.getSheet();
+    const styles = StylesComponent.getSheet(themes[context.state.theme]);
     const hideModal = () => {
         props.setVisibleModalNewPost(false);
     };
@@ -26,6 +27,7 @@ export default function NewPost(props) {
             Alert.alert(i18n.t('error.default', { message: error.message }));
         }
     };
+    
     useEffect(() => {
         setState({ ...state, visible: props.visible});
     }, [props.visible]);
@@ -62,7 +64,7 @@ export default function NewPost(props) {
                         value={state.contentPost}
                         underlineColorAndroid='transparent'
                         placeholder={i18n.t('inputText.whatOnMind')}
-                        placeholderTextColor='grey'
+                        placeholderTextColor={styles.inactiveText.color}
                         numberOfLines={10}
                         multiline={true}
                     />

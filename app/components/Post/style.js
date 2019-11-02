@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default class StylesComponent {
-    static getSheet() {
+    static getSheet(theme) {
         return StyleSheet.create({
             card: {
                 borderRadius: 5,
@@ -26,7 +26,7 @@ export default class StylesComponent {
                 flex: 1
             },
             dateCreated: {
-                color: '#bababa'
+                color: theme.TEXT_DATE_COLOR
             },
             containerButtonUpvote: {
                 flex: 1,
@@ -37,7 +37,10 @@ export default class StylesComponent {
             },
             textTotalUpvoters: {
                 marginLeft: 10,
-                color: '#7e7e7e'
+                color: theme.TEXT_UPVOTERS_COLOR
+            },
+            icon: {
+                color: theme.PRIMARY_COLOR
             }
         })
     }

@@ -25,6 +25,9 @@ export default class StylesComponent {
             containerButtonNewPost: {
                 flex: 1,
                 alignItems: 'flex-end'
+            },
+            icon: {
+                color: theme.PRIMARY_COLOR
             }
         })
     }

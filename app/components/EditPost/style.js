@@ -2,7 +2,7 @@ import { StyleSheet, Platform } from 'react-native';
 import { isIphoneX } from '../../utils/isIphone';
 
 export default class StylesComponent {
-    static getSheet() {
+    static getSheet(theme) {
         return StyleSheet.create({
             container: {
                 flex: 1,
@@ -10,7 +10,7 @@ export default class StylesComponent {
             },
             title: {
                 textAlign:'center',
-                fontSize: 18,
+                fontSize: theme.FONT_SIZE_LARGE,
                 fontWeight: 'bold'
             },
             topBar: {
@@ -32,19 +32,19 @@ export default class StylesComponent {
                 alignItems: 'center'
             },
             buttonText: {
-                fontSize: 16,
+                fontSize: theme.FONT_SIZE_MEDIUM,
                 fontWeight: 'bold',
-                color: '#65b9bd'
+                color: theme.PRIMARY_COLOR
             },
             textAreaContainer: {
                 marginTop: 30,
                 marginHorizontal: 22,
-                borderColor: '#d7d9da',
+                borderColor: theme.TEXTAREA_BODER_COLOR,
                 borderBottomWidth: 1,
                 padding: 5
             },
             inactiveText: {
-                color: 'grey'
+                color: theme.INACTIVE_TEXT_COLOR
             },
             textArea: {
                 borderColor: 'transparent',

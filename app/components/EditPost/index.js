@@ -4,12 +4,13 @@ import i18n from '../../i18n';
 import AppContext from '../../AppContext';
 import StylesComponent from './style';
 import { editPost } from '../../utils';
+import { themes } from '../../themes';
 
 export default function EditPost(props) {
     const context = useContext(AppContext);
     const { post, setVisibleModalEditPost } = props;
     const [state, setState] = useState({visible: false, activeEdit: false, contentPost: post.text });
-    const styles = StylesComponent.getSheet();
+    const styles = StylesComponent.getSheet(themes[context.state.theme]);
     const hideModal = () => {
         setVisibleModalEditPost(false);
     };
@@ -30,6 +31,7 @@ export default function EditPost(props) {
             Alert.alert(i18n.t('error.default', { message: error.message }));
         }
     };
+
     useEffect(() => {
         setState({ ...state, visible: props.visible});
     }, [props.visible]);
@@ -66,7 +68,7 @@ export default function EditPost(props) {
                         value={state.contentPost}
                         underlineColorAndroid='transparent'
                         placeholder={i18n.t('inputText.whatOnMind')}
-                        placeholderTextColor='grey'
+                        placeholderTextColor={styles.inactiveText.color}
                         numberOfLines={10}
                         multiline={true}
                     />

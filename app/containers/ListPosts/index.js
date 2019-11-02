@@ -33,7 +33,7 @@ export default function ListPosts() {
                     <TouchableOpacity onPress={() => setVisibleModalNewPost(true)}>
                         <Icon
                             size={25}
-                            color='#65b9bd'
+                            color={styles.icon.color}
                             name='clipboard-pencil'
                             type='foundation' />
                     </TouchableOpacity>

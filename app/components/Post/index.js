@@ -8,6 +8,7 @@ import * as Animatable from 'react-native-animatable';
 import i18n from '../../i18n';
 import { formatDate, upvote, removeVote, removePost } from '../../utils';
 import EditPost from '../EditPost';
+import { themes } from '../../themes';
 const AnimatedButton = Animatable.createAnimatableComponent(TouchableOpacity);
 
 export default function Post(props) {
@@ -15,7 +16,7 @@ export default function Post(props) {
     const [post, setPost] = useState(props.post);
     const [visibleModalEditPost, setVisibleModalEditPost] = useState(false);
     const context = useContext(AppContext);
-    const styles = StylesComponent.getSheet();
+    const styles = StylesComponent.getSheet(themes[context.state.theme]);
     const dateCreated = formatDate(new Date(post.dateCreated));
     const onPressVote = async () => {
         try {
@@ -74,7 +75,7 @@ export default function Post(props) {
                             <OptionsMenu
                                 customButton={(
                                     <Icon
-                                        color='#65b9bd'
+                                        color={styles.icon.color}
                                         name='dots-three-horizontal'
                                         type='entypo' />
                                 )}
@@ -91,7 +92,7 @@ export default function Post(props) {
                         <AnimatedButton ref={buttonHeartRef} style={styles.buttonUpvote} onPress={onPressVote}>
                             <Icon
                                 size={21}
-                                color='#65b9bd'
+                                color={styles.icon.color}
                                 name={verifyUpvote()}
                                 type='material-community' />
                             <Text style={styles.textTotalUpvoters}>{post.upvoters.length}</Text>
