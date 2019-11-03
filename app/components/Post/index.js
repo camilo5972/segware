@@ -22,7 +22,7 @@ export default function Post(props) {
         try {
             buttonHeartRef.current.stopAnimation();
             const {author: upvoter} = context.state;
-            const postUpdated = isAuthorUpvoter() ? await removeVote(post._id, { upvoter }) : await upvote(post._id, { upvoter });
+            const postUpdated = isAuthorUpvoter() ? await removeVote(post._id, { upvoter }, context.state.ws) : await upvote(post._id, { upvoter }, context.state.ws);
             setPost(postUpdated);
             buttonHeartRef.current.swing(1000);
         } catch (error) {
@@ -32,7 +32,7 @@ export default function Post(props) {
     const editPost = () => { setVisibleModalEditPost(true) };
     const deletePost = async () => {
         try {
-            const postRemoved = await removePost(post._id, { author: context.state.author });
+            const postRemoved = await removePost(post._id, { author: context.state.author }, context.state.ws);
             const posts = context.state.posts.filter((item) => item._id !== postRemoved._id );
             context.updateState({ ...context.state, posts });
         } catch (error) {

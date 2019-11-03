@@ -20,7 +20,7 @@ export default function EditPost(props) {
     const update = async () => {
         try {
             if (!state.activeEdit) return;
-            const updatedPost = await editPost(post._id, { author: context.state.author, text: state.contentPost });
+            const updatedPost = await editPost(post._id, { author: context.state.author, text: state.contentPost }, context.state.ws);
             const listUpdated = context.state.posts.map((item) => {
                 if (item._id !== post._id) return item;
                 return updatedPost;

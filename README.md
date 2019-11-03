@@ -11,6 +11,7 @@ React Native App for Posts management.
 * Upvote a post
 * Supported languages: Spanish and English (Default English)
 * Base support (code) for multi-themes
+* Use of Websockets for broadcasting update posts
 
 ### Project structure
 
@@ -38,7 +39,7 @@ Configure the URL where the backend is running in the file `app/utils/constants.
 
 ```javascript
 export const SPLASH_TIME = 2700;
-export const HOST = 'http://192.168.0.104:3530/api'; // Update here with the backend URL
+export const IP = '192.168.0.104:3530'; // Update here with the backend IP
 ```
 
 Run Metro server:

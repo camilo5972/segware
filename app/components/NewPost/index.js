@@ -19,7 +19,7 @@ export default function NewPost(props) {
     const publish = async () => {
         try {
             if (!state.activePublish) return;
-            const post = await newPost({ author: context.state.author, text: state.contentPost });
+            const post = await newPost({ author: context.state.author, text: state.contentPost }, context.state.ws);
             updateContentPost(null);
             context.updateState({ ...context.state, posts: [post, ...context.state.posts]});
             hideModal();

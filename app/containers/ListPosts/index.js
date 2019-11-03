@@ -9,10 +9,10 @@ import NewPost from '../../components/NewPost';
 import { themes } from '../../themes';
 
 export default function ListPosts() {
-    const [refresh, setRefresh] = useState(false);
-    const [visibleModalNewPost, setVisibleModalNewPost] = useState(false);
     const context = useContext(AppContext);
     const styles = StylesComponent.getSheet(themes[context.state.theme]);
+    const [refresh, setRefresh] = useState(false);
+    const [visibleModalNewPost, setVisibleModalNewPost] = useState(false);
     const posts = () => context.state.posts.map((post) => <Post key={post._id} post={post} />);
     const onRefresh = useCallback(async () => {
         setRefresh(true);

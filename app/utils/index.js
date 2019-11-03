@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { HOST } from './constants';
+import { HOST, UPDATE_LIST } from './constants';
 const uuidv4 = require('uuid/v4');
 
 export const getAuthor = async () => {
@@ -29,7 +29,7 @@ export const getTheme = async () => {
     return theme;
 };
 
-export const newPost = async (payload) => {
+export const newPost = async (payload, ws) => {
     const response = await fetch(`${HOST}/posts`, {
         method: 'POST',
         headers: {
@@ -40,10 +40,11 @@ export const newPost = async (payload) => {
     });
     const responseJson = await response.json();
     if (!responseJson.post) throw new Error(responseJson.message);
+    ws.send(JSON.stringify({ author: payload.author, action: UPDATE_LIST }));
     return responseJson.post;
 };
 
-export const editPost = async (idPost, payload) => {
+export const editPost = async (idPost, payload, ws) => {
     const response = await fetch(`${HOST}/posts/${idPost}`, {
         method: 'PUT',
         headers: {
@@ -54,10 +55,11 @@ export const editPost = async (idPost, payload) => {
     });
     const responseJson = await response.json();
     if (!responseJson.post) throw new Error(responseJson.message);
+    ws.send(JSON.stringify({ author: payload.author, action: UPDATE_LIST }));
     return responseJson.post;
 };
 
-export const removePost = async (idPost, payload) => {
+export const removePost = async (idPost, payload, ws) => {
     const response = await fetch(`${HOST}/posts/${idPost}`, {
         method: 'DELETE',
         headers: {
@@ -68,10 +70,11 @@ export const removePost = async (idPost, payload) => {
     });
     const responseJson = await response.json();
     if (!responseJson.post) throw new Error(responseJson.message);
+    ws.send(JSON.stringify({ author: payload.author, action: UPDATE_LIST }));
     return responseJson.post;
 };
 
-export const upvote = async (idPost, payload) => {
+export const upvote = async (idPost, payload, ws) => {
     const response = await fetch(`${HOST}/posts/${idPost}/upvote`, {
         method: 'PUT',
         headers: {
@@ -82,10 +85,11 @@ export const upvote = async (idPost, payload) => {
     });
     const responseJson = await response.json();
     if (!responseJson.post) throw new Error(responseJson.message);
+    ws.send(JSON.stringify({ author: payload.upvoter, action: UPDATE_LIST }));
     return responseJson.post;
 };
 
-export const removeVote = async (idPost, payload) => {
+export const removeVote = async (idPost, payload, ws) => {
     const response = await fetch(`${HOST}/posts/${idPost}/upvote`, {
         method: 'DELETE',
         headers: {
@@ -96,6 +100,7 @@ export const removeVote = async (idPost, payload) => {
     });
     const responseJson = await response.json();
     if (!responseJson.post) throw new Error(responseJson.message);
+    ws.send(JSON.stringify({ author: payload.upvoter, action: UPDATE_LIST }));
     return responseJson.post;
 };
 
